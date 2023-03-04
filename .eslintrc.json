@@ -1,0 +1,23 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+     "es6": true,
+     "browser": true,
+     "jest": true
+  },
+  "rules": {
+    "no-restricted-syntax": [
+      "error",
+      "LabeledStatement",
+      "WithStatement"
+    ],
+    "consistent-return":"off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "import/extensions": "off",
+    "no-plusplus": "off",
+    "func-names": "off",
+    "no-param-reassign": "off",
+    "no-alert":"off",
+    "class-methods-use-this":"off"
+  }
+}
