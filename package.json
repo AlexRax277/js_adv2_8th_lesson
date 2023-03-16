@@ -37,6 +37,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "reconnecting-websocket": "^4.4.0",
     "uuid": "^9.0.0"
   }
 }

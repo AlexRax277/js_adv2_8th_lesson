@@ -9,6 +9,7 @@ export default class Mess {
 
   view() {
     const mess = document.createElement('div');
+    mess.id = this.id;
     const messInfo = document.createElement('div');
     messInfo.classList = 'messInfo';
     const messText = document.createElement('div');

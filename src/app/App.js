@@ -1,48 +1,37 @@
 import EnterPop from './EnterPop.js';
-import Chat from './Chat.js';
 
-export default function MainFoo() {
+export default async function MainFoo() {
   const pop = new EnterPop('Выберите псевдоним');
-  const { popup, submit, userName } = pop.create();
-  let allUsers = [];
-  let currentUser;
+  const { submit, userName } = pop.create();
+  
+  const ws = new WebSocket('ws://localhost:8080');
+  
+  ws.onopen = (() => {
+    console.log('isopen');
+    ws.send(JSON.stringify({ "type": "initialData", "data": '' }))
+  });
 
-  const ws = new WebSocket('ws://localhost:8080/ws');
+  ws.onmessage = ((e) => { 
+    const msg = JSON.parse(e.data);
+    if(msg.type === 'initialData') {
+      let allUsers = msg.data;
+      submit.addEventListener('click', e => {
+        e.preventDefault();
+        const currentUser = userName.value;
+        localStorage.setItem('currentUser', currentUser);
+        if (!allUsers.includes(currentUser) && currentUser.length > 1 && currentUser.length <= 10) {
+          ws.send(JSON.stringify({ "type": "userEnter", "data": currentUser }));
+          setInterval(() => {
+            window.location.href = String(window.location.href).replace('index', 'chat');
+          }, 1 * 1000);
+        } else {
+          alert('Такое имя уже существует либо введенное имя слишком длинное/короткое, введите другое.');
+        };
+      });
+    };
+  })
 
-  ws.onmessage = async function (e) {
-    const data = await JSON.parse(e.data);
-    const messages = data.chat;
-    const { usersOnline } = data;
-
-    messages.forEach((message) => {
-      allUsers.push(message.user);
-    });
-
-    allUsers = [...allUsers, ...usersOnline];
-
-    submit.addEventListener('click', (event) => {
-      event.preventDefault();
-      if (!allUsers.includes(userName.value)
-      && userName.value.length > 1 && userName.value.length <= 10) {
-        currentUser = userName.value;
-        allUsers.push(currentUser);
-        const chat = new Chat([...usersOnline, currentUser], messages, currentUser);
-        ws.send(JSON.stringify({ type: 'userEnter', data: currentUser }));
-        window.addEventListener('beforeunload', (ev) => {
-          ev.preventDefault();
-          ev.returnValue = '';
-          const newWs = new WebSocket('ws://localhost:8080/ws');
-          newWs.onopen = function () {
-            newWs.send(JSON.stringify({ type: 'userOut', data: currentUser }));
-          };
-          chat.deleteUser(userName.value);
-        });
-        popup.remove();
-        chat.create();
-        document.querySelector('.scrollBar').lastElementChild.scrollIntoView({ block: 'end' });
-      } else {
-        alert('Такое имя уже существует либо введенное имя слишком длинное/короткое, введите другое.');
-      }
-    });
-  };
-}
+  ws.onclose = (() => {
+    console.log('isclosed');
+  });
+};
