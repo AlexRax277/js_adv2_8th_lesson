@@ -3,17 +3,9 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: {
-    index: {
-      import: path.resolve(__dirname, './src/index.js'),
-    },
-    chat: {
-      import: path.resolve(__dirname, './src/chatWin.js'),
-    },
-  },
   target: 'web',
   output: {
-    filename: '[name].js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist/'),
     publicPath: 'auto',
   },
@@ -50,12 +42,6 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      chunks: ['index'],
-    }),
-    new HtmlWebPackPlugin({
-      template: './src/chat.html',
-      filename: 'chat.html',
-      chunks: ['chat'],
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
