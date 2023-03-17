@@ -21,14 +21,14 @@ export default class Chat {
     chatStr.classList = 'chatStr';
     scrollBar.appendChild(chatStr);
 
-    if(this.messages) {
+    if (this.messages) {
       this.messages.forEach((message) => {
         const mess = new Mess(message.id, message.user, message.date, message.text, false);
         scrollBar.appendChild(mess.view().newMess);
         document.querySelector('.scrollBar').lastElementChild.scrollIntoView({ block: 'end' });
       });
-    };
-    
+    }
+
     const sideBar = document.createElement('div');
     sideBar.classList = 'sideBar';
     document.body.appendChild(sideBar);

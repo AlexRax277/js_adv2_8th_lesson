@@ -5,19 +5,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: {
     index: {
-      import: './src/index.js',
+      import: path.resolve(__dirname, './src/index.js'),
     },
     chat: {
-      import: './src/app/chatWin.js',
-      dependOn: 'index',
+      import: path.resolve(__dirname, './src/chatWin.js'),
     },
-  },
-  optimization: {
-    runtimeChunk: 'single',
   },
   target: 'web',
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist/'),
     publicPath: 'auto',
   },
@@ -54,12 +50,12 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      chunks: 'index',
+      chunks: ['index'],
     }),
     new HtmlWebPackPlugin({
       template: './src/chat.html',
       filename: 'chat.html',
-      chunks: 'chat',
+      chunks: ['chat'],
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
