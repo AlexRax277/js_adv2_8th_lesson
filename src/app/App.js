@@ -23,12 +23,13 @@ export default async function MainFoo() {
           localStorage.setItem('currentUser', currentUser);
           if (!allUsers.includes(currentUser)
               && currentUser.length > 1
-              && currentUser.length <= 10) {
+              && currentUser.length <= 10
+              && ws.readyState === 1) {
             ws.send(JSON.stringify({ type: 'userEnter', data: currentUser }));
             popup.remove();
             res(() => chatWin());
           } else {
-            rej(Error('Такое имя уже существует либо введенное имя слишком длинное/короткое, введите другое.'));
+            rej(Error('Что-то пошло не так, попробуйте еще раз.'));
           }
         });
       }
