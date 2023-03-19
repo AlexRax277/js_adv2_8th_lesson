@@ -35,7 +35,10 @@ export default async function MainFoo() {
     });
 
     ws.onclose = (() => {
-      console.log('chat data uploaded succesfully');
+      console.log('loading data...');
     });
-  }).then((result) => { result(); }, (err) => console.log(err));
+  }).then((result) => { result(); }, (err) => {
+    alert(err);
+    window.location.reload();
+  });
 }
