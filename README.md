@@ -1,4 +1,4 @@
-### Онлайн-чат на ванильном JS
+##Онлайн-чат на ванильном JS
 [![Build status](https://ci.appveyor.com/api/projects/status/0ku9742hh80cskr2?svg=true)](https://ci.appveyor.com/project/AlexRax277/js-adv2-8th-lesson)
 
 # Github-pages:
